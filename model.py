@@ -212,7 +212,7 @@ def play_interactive_game():
 
         try:
             board = place_move(board, row, col, player)
-            player = -player
+            player = switch_player(player)
         except ValueError:
             print("illegal move, try again", file=sys.stderr)
             continue
