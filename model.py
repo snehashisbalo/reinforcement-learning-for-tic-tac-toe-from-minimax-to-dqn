@@ -173,8 +173,23 @@ def switch_player(player):
     else:
         return 1
 
-# Step 16 - play_hardcoded_game (not yet solved)
-# TODO: implement
+# Step 16 - play_hardcoded_game
+import numpy as np
+
+def play_hardcoded_game(moves):
+    """Replay a fixed sequence of (row, col) moves and return (final_board, status)."""
+    # TODO: start from an empty board with X to move, apply moves until terminal
+    board = np.zeros((3, 3), dtype=int)
+    player = 1
+    
+    for move in moves:
+        if get_game_status(board) != 'ongoing':
+            break
+        row, col = move
+        board = place_move(board, row, col, player)
+        player = switch_player(player)
+    
+    return (board, get_game_status(board))
 
 # Step 17 - play_interactive_game (not yet solved)
 # TODO: implement
