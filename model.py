@@ -114,8 +114,13 @@ def check_anti_diagonal_win(board, player):
     anti_diag = [board[i][2 - i] for i in range(3)]
     return all(cell == player for cell in anti_diag)
 
-# Step 11 - is_winner (not yet solved)
-# TODO: implement
+# Step 11 - is_winner
+import numpy as np
+
+def is_winner(board, player):
+    """Return True if `player` has three-in-a-row on `board`."""
+    # TODO: combine row, column, and diagonal win checks into a single boolean
+    return check_anti_diagonal_win(board, player) or check_column_win(board, player) or check_main_diagonal_win(board, player) or check_row_win(board, player)
 
 # Step 12 - is_draw (not yet solved)
 # TODO: implement
