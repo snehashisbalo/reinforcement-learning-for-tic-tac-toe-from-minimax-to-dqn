@@ -85,8 +85,17 @@ def check_row_win(board, player):
             return True
     return False
 
-# Step 8 - check_column_win (not yet solved)
-# TODO: implement
+# Step 8 - check_column_win
+import numpy as np
+
+def check_column_win(board, player):
+    """Return True if `player` has three-in-a-row in any column of `board`."""
+    # TODO: detect whether the given player has three-in-a-row across any column
+
+    for c in range(3):
+        if np.all(board[:, c] == player):
+            return True
+    return False
 
 # Step 9 - check_main_diagonal_win (not yet solved)
 # TODO: implement
