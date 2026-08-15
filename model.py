@@ -191,8 +191,33 @@ def play_hardcoded_game(moves):
     
     return (board, get_game_status(board))
 
-# Step 17 - play_interactive_game (not yet solved)
-# TODO: implement
+# Step 17 - play_interactive_game
+def play_interactive_game():
+    """Play a full game with two humans entering moves via stdin and return the final status."""
+    player = 1
+    board = np.zeros((3, 3), dtype=int)
+
+    while True:
+        print_board(board)
+        if get_game_status(board) != 'ongoing':
+            break
+
+        try:
+            line = input().strip()
+            if not line:
+                continue
+            row, col = map(int, line.split())
+        except (EOFError, ValueError):
+            break
+
+        try:
+            board = place_move(board, row, col, player)
+            player = -player
+        except ValueError:
+            print("illegal move, try again", file=sys.stderr)
+            continue
+
+    return get_game_status(board)
 
 # Step 18 - TicTacToeGame (not yet solved)
 # TODO: implement
