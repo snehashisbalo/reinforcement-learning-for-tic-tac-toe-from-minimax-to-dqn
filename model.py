@@ -268,8 +268,20 @@ def random_move_agent(board, player, rng):
     move = rng.choice(len(legal_moves))
     return tuple(legal_moves[move])
 
-# Step 20 - play_random_vs_random_game (not yet solved)
-# TODO: implement
+# Step 20 - play_random_vs_random_game
+import numpy as np
+
+def play_random_vs_random_game(rng):
+    """Simulate a random vs random Tic-Tac-Toe game and return final status."""
+    board = np.zeros((3, 3), dtype=int)
+    player = 1
+    
+    while get_game_status(board) == 'ongoing':
+        move = random_move_agent(board, player, rng)
+        board = place_move(board, move[0], move[1], player)
+        player = -player
+    
+    return get_game_status(board)
 
 # Step 21 - play_random_vs_random_matches (not yet solved)
 # TODO: implement
