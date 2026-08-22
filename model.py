@@ -320,8 +320,25 @@ def minimax_terminal_score(status):
     else:
         return 0
 
-# Step 24 - minimax_value (not yet solved)
-# TODO: implement
+# Step 24 - minimax_value
+def minimax_value(board, player):
+    """Return the exact minimax value of the position with optimal play."""
+    status = get_game_status(board)
+    if status != 'ongoing':
+        return minimax_terminal_score(status)
+    
+    legal_moves = get_legal_moves(board)
+    child_values = []
+    
+    for move in legal_moves:
+        new_board = place_move(board, move[0], move[1], player)
+        value = minimax_value(new_board, -player)
+        child_values.append(value)
+    
+    if player == 1:  # X is maximizer
+        return max(child_values)
+    else:  # O is minimizer
+        return min(child_values)
 
 # Step 25 - minimax_recursive (not yet solved)
 # TODO: implement
