@@ -24,8 +24,23 @@ def encode_player(player):
     elif player=='empty': return 0
     #else raise ValueError("Not a valid input player")
 
-# Step 3 - print_board (not yet solved)
-# TODO: implement
+# Step 3 - print_board
+import numpy as np
+
+def print_board(board):
+    """Print the 3x3 board using X, O, and . characters."""
+    # TODO: render each cell as 'X' (1), 'O' (-1), or '.' (0) in a 3x3 grid
+    for r in range(3):
+        for c in range(3):
+            if board[r][c] == 1:
+                print('X', end = '')
+            elif board[r][c] == -1:
+                print('O', end = '')
+            else:
+                print('.', end = '')
+            if c != 2:
+                print(' ', end='')
+        print()
 
 # Step 4 - is_cell_empty (not yet solved)
 # TODO: implement
