@@ -11,29 +11,29 @@ python scaffold.py
 ## Steps
 
 - [x] **1.** create_empty_board
-- [x] **2.** encode_player
-- [x] **3.** print_board
-- [x] **4.** is_cell_empty
-- [x] **5.** place_move
-- [x] **6.** get_legal_moves
-- [x] **7.** check_row_win
-- [x] **8.** check_column_win
-- [x] **9.** check_main_diagonal_win
-- [x] **10.** check_anti_diagonal_win
-- [x] **11.** is_winner
-- [x] **12.** is_draw
-- [x] **13.** get_game_status
-- [x] **14.** get_current_player
-- [x] **15.** switch_player
-- [x] **16.** play_hardcoded_game
-- [x] **17.** play_interactive_game
-- [x] **18.** TicTacToeGame
-- [x] **19.** random_move_agent
-- [x] **20.** play_random_vs_random_game
-- [x] **21.** play_random_vs_random_matches
-- [x] **22.** compute_outcome_rates
-- [x] **23.** minimax_terminal_score
-- [x] **24.** minimax_value
+- [ ] **2.** encode_player
+- [ ] **3.** print_board
+- [ ] **4.** is_cell_empty
+- [ ] **5.** place_move
+- [ ] **6.** get_legal_moves
+- [ ] **7.** check_row_win
+- [ ] **8.** check_column_win
+- [ ] **9.** check_main_diagonal_win
+- [ ] **10.** check_anti_diagonal_win
+- [ ] **11.** is_winner
+- [ ] **12.** is_draw
+- [ ] **13.** get_game_status
+- [ ] **14.** get_current_player
+- [ ] **15.** switch_player
+- [ ] **16.** play_hardcoded_game
+- [ ] **17.** play_interactive_game
+- [ ] **18.** TicTacToeGame
+- [ ] **19.** random_move_agent
+- [ ] **20.** play_random_vs_random_game
+- [ ] **21.** play_random_vs_random_matches
+- [ ] **22.** compute_outcome_rates
+- [ ] **23.** minimax_terminal_score
+- [ ] **24.** minimax_value
 - [ ] **25.** minimax_recursive
 - [ ] **26.** minimax_max_min_step
 - [ ] **27.** minimax_best_move

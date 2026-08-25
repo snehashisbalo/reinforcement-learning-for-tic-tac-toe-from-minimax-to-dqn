@@ -12,333 +12,77 @@ import numpy as np
 def create_empty_board():
     """Return an empty 3x3 Tic-Tac-Toe board as an int numpy array of zeros."""
     # TODO: return a (3, 3) integer numpy array filled with zeros
-
+    
     return np.zeros((3,3), dtype=int)
 
-# Step 2 - encode_player
-def encode_player(player):
-    """Return the integer encoding for 'X', 'O', or 'empty'."""
-    # TODO: map 'X' to 1, 'O' to -1, 'empty' to 0
-    if player == 'X':
-        return 1
-    elif player == 'O':
-        return -1
-    elif player == 'empty':
-        return 0
-    else:
-        raise ValueError(f"Unknown player: {player!r}")
+# Step 2 - encode_player (not yet solved)
+# TODO: implement
 
-# Step 3 - print_board
-import numpy as np
+# Step 3 - print_board (not yet solved)
+# TODO: implement
 
-def print_board(board):
-    """Print the 3x3 board using X, O, and . characters."""
-    # TODO: render each cell as 'X' (1), 'O' (-1), or '.' (0) in a 3x3 grid
-    symbols = {1: 'X', -1: 'O', 0: '.'}
-    for row in board:
-        line = ' '.join(symbols.get(cell, '.') for cell in row)
-        print(line)
+# Step 4 - is_cell_empty (not yet solved)
+# TODO: implement
 
-# Step 4 - is_cell_empty
-import numpy as np
+# Step 5 - place_move (not yet solved)
+# TODO: implement
 
-def is_cell_empty(board, row, col):
-    """Return True if board[row, col] is empty (0), else False."""
-    # TODO: check whether the cell at (row, col) is empty
-    return board[row][col] == 0
-    pass
+# Step 6 - get_legal_moves (not yet solved)
+# TODO: implement
 
-# Step 5 - place_move
-import numpy as np
+# Step 7 - check_row_win (not yet solved)
+# TODO: implement
 
-def place_move(board, row, col, player):
-    """Place player's mark at (row, col) and return the new board."""
-    # TODO: verify the cell is empty, then return a new board with the mark placed.
-    
-    nboard = board.copy()
-    if not is_cell_empty(board, row, col):
-        raise ValueError(f"Cell ({row}, {col}) is not empty")
-    nboard[row, col] = player
-    return nboard
+# Step 8 - check_column_win (not yet solved)
+# TODO: implement
 
-# Step 6 - get_legal_moves
-import numpy as np
+# Step 9 - check_main_diagonal_win (not yet solved)
+# TODO: implement
 
-def get_legal_moves(board):
-    """Return a list of (row, col) tuples for all empty cells on the board."""
-    # TODO: scan the 3x3 board in row-major order and collect coords of empties
-    moves = []
-    for r, row in enumerate(board):
-        for c, item in enumerate(row):
-            if item == 0:
-                moves.append((r, c))
-    return moves
+# Step 10 - check_anti_diagonal_win (not yet solved)
+# TODO: implement
 
-# Step 7 - check_row_win
-import numpy as np
+# Step 11 - is_winner (not yet solved)
+# TODO: implement
 
-def check_row_win(board, player):
-    """Return True if `player` has three-in-a-row across any row of `board`."""
-    # TODO: detect whether the given player has three identical marks across any row
-    for row in board:
-        if np.all(row == player):
-            return True
-    return False
+# Step 12 - is_draw (not yet solved)
+# TODO: implement
 
-# Step 8 - check_column_win
-import numpy as np
+# Step 13 - get_game_status (not yet solved)
+# TODO: implement
 
-def check_column_win(board, player):
-    """Return True if `player` has three-in-a-row in any column of `board`."""
-    # TODO: detect whether the given player has three-in-a-row across any column
+# Step 14 - get_current_player (not yet solved)
+# TODO: implement
 
-    for c in range(3):
-        if np.all(board[:, c] == player):
-            return True
-    return False
+# Step 15 - switch_player (not yet solved)
+# TODO: implement
 
-# Step 9 - check_main_diagonal_win
-import numpy as np
+# Step 16 - play_hardcoded_game (not yet solved)
+# TODO: implement
 
-def check_main_diagonal_win(board, player):
-    """Return True if `player` occupies all three main-diagonal cells."""
-    # TODO: check whether the main diagonal of `board` is fully occupied by `player`...
+# Step 17 - play_interactive_game (not yet solved)
+# TODO: implement
 
-    return np.all(np.diag(board) == player)
+# Step 18 - TicTacToeGame (not yet solved)
+# TODO: implement
 
-# Step 10 - check_anti_diagonal_win
-import numpy as np
+# Step 19 - random_move_agent (not yet solved)
+# TODO: implement
 
-def check_anti_diagonal_win(board, player):
-    # TODO: return True if `player` occupies all three anti-diagonal cells of the 3x3 board.
-    anti_diag = [board[i][2 - i] for i in range(3)]
-    return all(cell == player for cell in anti_diag)
+# Step 20 - play_random_vs_random_game (not yet solved)
+# TODO: implement
 
-# Step 11 - is_winner
-import numpy as np
+# Step 21 - play_random_vs_random_matches (not yet solved)
+# TODO: implement
 
-def is_winner(board, player):
-    """Return True if `player` has three-in-a-row on `board`."""
-    # TODO: combine row, column, and diagonal win checks into a single boolean
-    return check_anti_diagonal_win(board, player) or check_column_win(board, player) or check_main_diagonal_win(board, player) or check_row_win(board, player)
+# Step 22 - compute_outcome_rates (not yet solved)
+# TODO: implement
 
-# Step 12 - is_draw
-import numpy as np
+# Step 23 - minimax_terminal_score (not yet solved)
+# TODO: implement
 
-def is_draw(board):
-    """Return True iff the board is full and neither player has won."""
-    # TODO: combine a full-board check with a no-winner check
-    if get_legal_moves(board):
-        return False
-    
-    if is_winner(board, 1) or is_winner(board, -1):
-        return False 
-    
-    return True
-
-# Step 13 - get_game_status
-import numpy as np
-
-def get_game_status(board):
-    """Return 'X_win', 'O_win', 'draw', or 'ongoing' for the given 3x3 board."""
-    # TODO: classify the board into one of the four status strings
-    if is_winner(board, 1): return 'X_win'
-    elif is_winner(board, -1): return 'O_win'
-    elif is_draw(board): return 'draw'
-    else: return 'ongoing'
-
-# Step 14 - get_current_player
-import numpy as np
-
-def get_current_player(board):
-    """Return 1 if X is to move, -1 if O is to move."""
-    # TODO: infer whose turn it is from the counts of X and O marks on the board
-    total = 9
-    cnt = 0
-    for r in range(3):
-        for c in range(3):
-            if board[r][c] == 0:
-                cnt+=1
-    move = total - cnt
-    if move % 2 == 0:
-        return 1
-    else: return -1
-
-# Step 15 - switch_player
-def switch_player(player):
-    """Return the opponent of `player` (1 <-> -1)."""
-    # TODO: return the opposite player given 1 for X and -1 for O.
-    if player == 1:
-        return -1
-    else:
-        return 1
-
-# Step 16 - play_hardcoded_game
-import numpy as np
-
-def play_hardcoded_game(moves):
-    """Replay a fixed sequence of (row, col) moves and return (final_board, status)."""
-    # TODO: start from an empty board with X to move, apply moves until terminal
-    board = np.zeros((3, 3), dtype=int)
-    player = 1
-    
-    for move in moves:
-        if get_game_status(board) != 'ongoing':
-            break
-        row, col = move
-        board = place_move(board, row, col, player)
-        player = switch_player(player)
-    
-    return (board, get_game_status(board))
-
-# Step 17 - play_interactive_game
-def play_interactive_game():
-    """Play a full game with two humans entering moves via stdin and return the final status."""
-    player = 1
-    board = np.zeros((3, 3), dtype=int)
-
-    while True:
-        print_board(board)
-        if get_game_status(board) != 'ongoing':
-            break
-
-        try:
-            line = input().strip()
-            if not line:
-                continue
-            row, col = map(int, line.split())
-        except (EOFError, ValueError):
-            break
-
-        try:
-            board = place_move(board, row, col, player)
-            player = switch_player(player)
-        except ValueError:
-            print("illegal move, try again", file=sys.stderr)
-            continue
-
-    return get_game_status(board)
-
-# Step 18 - TicTacToeGame
-# ── Step 018  TicTacToeGame ──
-class TicTacToeGame:
-    """Stateful Tic-Tac-Toe environment wrapping the Part 1 engine."""
-
-    def __init__(self):
-        # initialize board, current_player, and status fields.
-        self.board = create_empty_board()
-        self.current_player = 1
-        self.status = 'ongoing'
-
-    def reset(self):
-        # return board to empty starting state.
-        self.board = create_empty_board()
-        self.current_player = 1
-        self.status = 'ongoing'
-        return self.board
-
-    def legal_moves(self):
-        # list of (row, col) tuples still playable.
-        return get_legal_moves(self.board)
-
-    def is_terminal(self):
-        # True once status is no longer 'ongoing'.
-        return self.status != 'ongoing'
-
-    def step(self, row, col):
-        # play current player's move, refresh status, switch player if still ongoing.
-        if self.is_terminal():
-            raise ValueError("Game is already over")
-
-        self.board = place_move(self.board, row, col, self.current_player)
-        self.status = get_game_status(self.board)
-
-        if self.status == 'ongoing':
-            self.current_player = switch_player(self.current_player)
-
-        return self.board, self.status
-
-# Step 19 - random_move_agent
-import numpy as np
-
-def random_move_agent(board, player, rng):
-    """Return a uniformly random legal (row, col) move for `player`."""
-    # TODO: sample a uniformly random legal move using rng and return it as (row, col)
-    legal_moves = get_legal_moves(board)
-    move = rng.choice(len(legal_moves))
-    return tuple(legal_moves[move])
-
-# Step 20 - play_random_vs_random_game
-import numpy as np
-
-def play_random_vs_random_game(rng):
-    """Simulate a random vs random Tic-Tac-Toe game and return final status."""
-    board = np.zeros((3, 3), dtype=int)
-    player = 1
-    
-    while get_game_status(board) == 'ongoing':
-        move = random_move_agent(board, player, rng)
-        board = place_move(board, move[0], move[1], player)
-        player = -player
-    
-    return get_game_status(board)
-
-# Step 21 - play_random_vs_random_matches
-def play_random_vs_random_matches(n_games, rng):
-    """Run n_games random-vs-random games and return the list of outcome strings."""
-    # TODO: run n_games independent random-vs-random games and collect outcomes.
-    result = []
-    for _ in range(n_games):
-        result.append(play_random_vs_random_game(rng))
-    return result
-
-# Step 22 - compute_outcome_rates
-def compute_outcome_rates(outcomes):
-    """Return dict of win/draw rates from a list of game outcome strings."""
-    n = len(outcomes)
-    if n == 0:
-        return {'x_win_rate': 0.0, 'o_win_rate': 0.0, 'draw_rate': 0.0}
-    
-    x_wins = outcomes.count('X_win')
-    o_wins = outcomes.count('O_win')
-    draws = outcomes.count('draw')
-    
-    return {
-        'x_win_rate': x_wins / n,
-        'o_win_rate': o_wins / n,
-        'draw_rate': draws / n,
-    }
-
-# Step 23 - minimax_terminal_score
-def minimax_terminal_score(status):
-    """Return +1 for 'X_win', -1 for 'O_win', 0 for 'draw'."""
-    # TODO: map a terminal status string to its minimax leaf value.
-    if status == 'X_win':
-        return 1
-    elif status == 'O_win':
-        return -1
-    else:
-        return 0
-
-# Step 24 - minimax_value
-def minimax_value(board, player):
-    """Return the exact minimax value of the position with optimal play."""
-    status = get_game_status(board)
-    if status != 'ongoing':
-        return minimax_terminal_score(status)
-    
-    legal_moves = get_legal_moves(board)
-    child_values = []
-    
-    for move in legal_moves:
-        new_board = place_move(board, move[0], move[1], player)
-        value = minimax_value(new_board, -player)
-        child_values.append(value)
-    
-    if player == 1:  # X is maximizer
-        return max(child_values)
-    else:  # O is minimizer
-        return min(child_values)
+# Step 24 - minimax_value (not yet solved)
+# TODO: implement
 
 # Step 25 - minimax_recursive (not yet solved)
 # TODO: implement
