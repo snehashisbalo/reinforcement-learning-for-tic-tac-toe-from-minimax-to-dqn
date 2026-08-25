@@ -19,10 +19,14 @@ def create_empty_board():
 def encode_player(player):
     """Return the integer encoding for 'X', 'O', or 'empty'."""
     # TODO: map 'X' to 1, 'O' to -1, 'empty' to 0
-    if player == 'X' :  return 1
-    elif player=='O': return -1
-    elif player=='empty': return 0
-    #else raise ValueError("Not a valid input player")
+    if player == 'X':
+        return 1
+    elif player == 'O':
+        return -1
+    elif player == 'empty':
+        return 0
+    else:
+        raise ValueError(f"Not a valid input player: {player}")
 
 # Step 3 - print_board
 import numpy as np
@@ -53,8 +57,19 @@ def is_cell_empty(board, row, col):
     else:
         return True
 
-# Step 5 - place_move (not yet solved)
-# TODO: implement
+# Step 5 - place_move
+import numpy as np
+
+def place_move(board, row, col, player):
+    """Place player's mark at (row, col) and return the new board."""
+    # TODO: verify the cell is empty, then return a new board with the mark placed.
+    if not is_cell_empty(board, row, col):
+        raise ValueError(f"Cell at ({row}, {col}) is not empty")
+    
+    # Create a copy of the board to avoid modifying the original
+    new_board = board.copy()
+    new_board[row][col] = encode_player(player)
+    return new_board
 
 # Step 6 - get_legal_moves (not yet solved)
 # TODO: implement
