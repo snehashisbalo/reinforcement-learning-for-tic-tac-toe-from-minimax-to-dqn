@@ -68,7 +68,7 @@ def place_move(board, row, col, player):
     
     # Create a copy of the board to avoid modifying the original
     new_board = board.copy()
-    new_board[row][col] = encode_player(player)
+    new_board[row][col] = player
     return new_board
 
 # Step 6 - get_legal_moves (not yet solved)
