@@ -42,8 +42,16 @@ def print_board(board):
                 print(' ', end='')
         print()
 
-# Step 4 - is_cell_empty (not yet solved)
-# TODO: implement
+# Step 4 - is_cell_empty
+import numpy as np
+
+def is_cell_empty(board, row, col):
+    """Return True if board[row, col] is empty (0), else False."""
+    # TODO: check whether the cell at (row, col) is empty
+    if board[row][col] != 0 : 
+        return False
+    else:
+        return True
 
 # Step 5 - place_move (not yet solved)
 # TODO: implement
