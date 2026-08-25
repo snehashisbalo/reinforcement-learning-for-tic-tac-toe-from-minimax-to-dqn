@@ -258,8 +258,11 @@ class TicTacToeGame:
 
         return self.board, self.status
 
-# Step 19 - random_move_agent (not yet solved)
-# TODO: implement
+# Step 19 - random_move_agent
+def random_move_agent(board, player, rng):
+    legal_moves = get_legal_moves(board)
+    idx = rng.integers(len(legal_moves))
+    return tuple(int(x) for x in legal_moves[idx])
 
 # Step 20 - play_random_vs_random_game (not yet solved)
 # TODO: implement
