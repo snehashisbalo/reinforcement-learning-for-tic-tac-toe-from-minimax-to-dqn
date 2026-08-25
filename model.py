@@ -108,8 +108,12 @@ def check_main_diagonal_win(board, player):
     # TODO: check whether the main diagonal of `board` is fully occupied by `player`...
     return np.all(np.diag(board)==player)
 
-# Step 10 - check_anti_diagonal_win (not yet solved)
-# TODO: implement
+# Step 10 - check_anti_diagonal_win
+import numpy as np
+
+def check_anti_diagonal_win(board, player):
+    # TODO: return True if `player` occupies all three anti-diagonal cells of the 3x3 board.
+    return np.all(np.diag(np.fliplr(board))==player)
 
 # Step 11 - is_winner (not yet solved)
 # TODO: implement
