@@ -274,26 +274,14 @@ def play_random_vs_random_game(rng):
     status = 'ongoing'
     
     while status == 'ongoing':
-        # Get all legal moves
         legal_moves = get_legal_moves(board)
-        
-        # Choose a random legal move
         if legal_moves:
-            move_idx = rng.integers(len(legal_moves))  # Changed from randint to integers
+            move_idx = rng.integers(len(legal_moves)) 
             row, col = legal_moves[move_idx]
-            
-            # Place the move
             board = place_move(board, row, col, player)
-            
-            # Switch players
             player = -player
-            
-            # Check game status
             status = get_game_status(board)
-        else:
-            # No legal moves available - should be a draw
-            status = 'draw'
-            break
+        
     
     return status
 
