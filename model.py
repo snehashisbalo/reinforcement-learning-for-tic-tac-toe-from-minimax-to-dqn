@@ -90,7 +90,10 @@ import numpy as np
 def check_row_win(board, player):
     """Return True if `player` has three-in-a-row across any row of `board`."""
     # TODO: detect whether the given player has three identical marks across any row
-    return np.any(np.all(board == player, axis=1))
+    for r in range(3):
+        if board[r][0] == player and board[r][1] == player and board[r][2] == player:
+            return True
+    return False
 
 # Step 8 - check_column_win
 import numpy as np
@@ -333,8 +336,26 @@ def minimax_terminal_score(status):
     else:
         return 0
 
-# Step 24 - minimax_value (not yet solved)
-# TODO: implement
+# Step 24 - minimax_value
+def minimax_value(board, player):
+    """Return the minimax value of `board` with `player` to move."""
+    # TODO: terminal -> minimax_terminal_score; else max (X) / min (O) over recursive child values
+
+    board = np.asarray(board)
+    status = get_game_status(board)
+    if status != "ongoing":
+        return minimax_terminal_score(status)
+
+    child_values = []
+    for row, col in get_legal_moves(board):
+        child_board = place_move(board, row, col, player)
+        child_value = minimax_value(child_board, switch_player(player))
+        child_values.append(child_value)
+
+    if player == 1:
+        return max(child_values)
+    if player == -1:
+        return min(child_values)
 
 # Step 25 - minimax_recursive (not yet solved)
 # TODO: implement
