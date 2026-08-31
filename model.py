@@ -151,7 +151,7 @@ def get_game_status(board):
     # TODO: classify the board into one of the four status strings
     if is_winner(board, 1): return 'X_win'
     elif is_winner(board, -1): return 'O_win'
-    elif is_draw(board): return 'draw'
+    elif len(get_legal_moves(board)) == 0: return 'draw'
     else:
         return 'ongoing'
 
