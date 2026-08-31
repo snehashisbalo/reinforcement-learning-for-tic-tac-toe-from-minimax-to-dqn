@@ -137,7 +137,11 @@ import numpy as np
 def is_draw(board):
     """Return True iff the board is full and neither player has won."""
     # TODO: combine a full-board check with a no-winner check
-    return len(get_legal_moves(board)) == 0
+    if len(get_legal_moves(board)) > 0:
+        return False
+    if is_winner(board, 1) or is_winner(board, -1):
+        return False
+    return True
 
 # Step 13 - get_game_status
 import numpy as np
