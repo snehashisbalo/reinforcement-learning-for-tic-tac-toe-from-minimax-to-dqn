@@ -77,12 +77,13 @@ import numpy as np
 def get_legal_moves(board):
     """Return a list of (row, col) tuples for all empty cells on the board."""
     # TODO: scan the 3x3 board in row-major order and collect coords of empties
-    moves = []
-    for r in range(len(board)):
-        for c in range(len(board[r])):
+    
+    legal = []
+    for r in range(3):
+        for c in range(3):
             if is_cell_empty(board, r, c):
-                moves.append((r, c))
-    return moves
+                legal.append((r,c))
+    return legal
 
 # Step 7 - check_row_win
 import numpy as np
