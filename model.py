@@ -101,7 +101,10 @@ import numpy as np
 def check_column_win(board, player):
     """Return True if `player` has three-in-a-row in any column of `board`."""
     # TODO: detect whether the given player has three-in-a-row across any column
-    return np.any(np.all(board == player, axis=0))
+    for c in range(3):
+        if board[0][c] == player and board[1][c] == player and board[2][c] == player:
+            return True
+    return False
 
 # Step 9 - check_main_diagonal_win
 import numpy as np
@@ -134,12 +137,7 @@ import numpy as np
 def is_draw(board):
     """Return True iff the board is full and neither player has won."""
     # TODO: combine a full-board check with a no-winner check
-    if len(get_legal_moves(board)) > 0:
-        return False 
-    if is_winner(board, 1) or is_winner(board, -1):
-        return False 
-    
-    return True
+    return len(get_legal_moves(board)) == 0:
 
 # Step 13 - get_game_status
 import numpy as np
