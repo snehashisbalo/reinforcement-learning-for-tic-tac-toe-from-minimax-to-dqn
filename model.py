@@ -119,7 +119,7 @@ import numpy as np
 
 def check_anti_diagonal_win(board, player):
     # TODO: return True if `player` occupies all three anti-diagonal cells of the 3x3 board.
-    return np.all(np.diag(np.fliplr(board))==player)
+        return board[0][2] == player and board[1][1] == player and board[2][0] == player
 
 # Step 11 - is_winner
 import numpy as np
