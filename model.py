@@ -112,7 +112,7 @@ import numpy as np
 def check_main_diagonal_win(board, player):
     """Return True if `player` occupies all three main-diagonal cells."""
     # TODO: check whether the main diagonal of `board` is fully occupied by `player`...
-    return np.all(np.diag(board)==player)
+    return board[0][0] == player and board[1][1] == player and board[2][2] == player
 
 # Step 10 - check_anti_diagonal_win
 import numpy as np
@@ -137,7 +137,7 @@ import numpy as np
 def is_draw(board):
     """Return True iff the board is full and neither player has won."""
     # TODO: combine a full-board check with a no-winner check
-    return len(get_legal_moves(board)) == 0:
+    return len(get_legal_moves(board)) == 0
 
 # Step 13 - get_game_status
 import numpy as np
