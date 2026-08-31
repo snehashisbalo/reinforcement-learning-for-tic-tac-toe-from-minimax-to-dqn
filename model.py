@@ -62,13 +62,12 @@ import numpy as np
 
 def place_move(board, row, col, player):
     """Place player's mark at (row, col) and return the new board."""
-    # TODO: verify the cell is empty, then return a new board with the mark placed.
     if not is_cell_empty(board, row, col):
-        raise ValueError(f"Cell at ({row}, {col}) is not empty")
-    
-    # Create a copy of the board to avoid modifying the original
+        raise ValueError('cell is not empty')
+
     new_board = board.copy()
-    new_board[row][col] = player
+    new_board[row, col] = player
+
     return new_board
 
 # Step 6 - get_legal_moves
@@ -340,14 +339,19 @@ def minimax_terminal_score(status):
         return 0
 
 # Step 24 - minimax_value
-def minimax_value(board, player):
-    """Return the minimax value of `board` with `player` to move."""
-    # TODO: terminal -> minimax_terminal_score; else max (X) / min (O) over recursive child values
+_minimax_value_cache = {}
 
-    board = np.asarray(board)
+def minimax_value(board, player):
+    #board = np.asarray(board)
+    key = (board.tobytes(), player)
+    if key in _minimax_value_cache:
+        return _minimax_value_cache[key]
+
     status = get_game_status(board)
     if status != "ongoing":
-        return minimax_terminal_score(status)
+        value = minimax_terminal_score(status)
+        _minimax_value_cache[key] = value
+        return value
 
     child_values = []
     for row, col in get_legal_moves(board):
@@ -355,10 +359,9 @@ def minimax_value(board, player):
         child_value = minimax_value(child_board, switch_player(player))
         child_values.append(child_value)
 
-    if player == 1:
-        return max(child_values)
-    if player == -1:
-        return min(child_values)
+    value = max(child_values) if player == 1 else min(child_values)
+    _minimax_value_cache[key] = value
+    return value
 
 # Step 25 - minimax_recursive (not yet solved)
 # TODO: implement
