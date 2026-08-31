@@ -12,21 +12,15 @@ import numpy as np
 def create_empty_board():
     """Return an empty 3x3 Tic-Tac-Toe board as an int numpy array of zeros."""
     # TODO: return a (3, 3) integer numpy array filled with zeros
-    
     return np.zeros((3,3), dtype=int)
 
 # Step 2 - encode_player
 def encode_player(player):
     """Return the integer encoding for 'X', 'O', or 'empty'."""
     # TODO: map 'X' to 1, 'O' to -1, 'empty' to 0
-    if player == 'X':
-        return 1
-    elif player == 'O':
-        return -1
-    elif player == 'empty':
-        return 0
-    else:
-        raise ValueError(f"Not a valid input player: {player}")
+
+    states = {'X': 1, 'O': -1, 'empty': 0}
+    return states[player]
 
 # Step 3 - print_board
 import numpy as np
@@ -34,17 +28,15 @@ import numpy as np
 def print_board(board):
     """Print the 3x3 board using X, O, and . characters."""
     # TODO: render each cell as 'X' (1), 'O' (-1), or '.' (0) in a 3x3 grid
-    for r in range(3):
-        for c in range(3):
-            if board[r][c] == 1:
-                print('X', end = '')
-            elif board[r][c] == -1:
-                print('O', end = '')
-            else:
-                print('.', end = '')
-            if c != 2:
-                print(' ', end='')
-        print()
+    
+    symbols = {
+        1: "X",
+        -1: "O",
+        0: ".",
+    }
+
+    for row in board:
+        print(" ".join(symbols[int(cell)] for cell in row))
 
 # Step 4 - is_cell_empty
 import numpy as np
@@ -52,16 +44,16 @@ import numpy as np
 def is_cell_empty(board, row, col):
     """Return True if board[row, col] is empty (0), else False."""
     # TODO: check whether the cell at (row, col) is empty
-    if board[row][col] != 0 : 
-        return False
-    else:
-        return True
+
+    return board[row, col] == 0
 
 # Step 5 - place_move
 import numpy as np
 
 def place_move(board, row, col, player):
     """Place player's mark at (row, col) and return the new board."""
+    # TODO: verify the cell is empty, then return a new board with the mark placed.
+    
     if not is_cell_empty(board, row, col):
         raise ValueError('cell is not empty')
 
@@ -76,7 +68,7 @@ import numpy as np
 def get_legal_moves(board):
     """Return a list of (row, col) tuples for all empty cells on the board."""
     # TODO: scan the 3x3 board in row-major order and collect coords of empties
-    
+
     legal = []
     for r in range(3):
         for c in range(3):
@@ -90,9 +82,11 @@ import numpy as np
 def check_row_win(board, player):
     """Return True if `player` has three-in-a-row across any row of `board`."""
     # TODO: detect whether the given player has three identical marks across any row
-    for r in range(3):
-        if board[r][0] == player and board[r][1] == player and board[r][2] == player:
+
+    for row in board:
+        if all([cell==player for cell in row]):
             return True
+
     return False
 
 # Step 8 - check_column_win
@@ -101,9 +95,11 @@ import numpy as np
 def check_column_win(board, player):
     """Return True if `player` has three-in-a-row in any column of `board`."""
     # TODO: detect whether the given player has three-in-a-row across any column
+
     for c in range(3):
-        if board[0][c] == player and board[1][c] == player and board[2][c] == player:
+        if all([row[c]==player for row in board]):
             return True
+
     return False
 
 # Step 9 - check_main_diagonal_win
@@ -112,14 +108,21 @@ import numpy as np
 def check_main_diagonal_win(board, player):
     """Return True if `player` occupies all three main-diagonal cells."""
     # TODO: check whether the main diagonal of `board` is fully occupied by `player`...
-    return board[0][0] == player and board[1][1] == player and board[2][2] == player
+
+    if all([board[d][d]==player for d in range(3)]):
+        return True
+
+    return False
 
 # Step 10 - check_anti_diagonal_win
 import numpy as np
 
 def check_anti_diagonal_win(board, player):
     # TODO: return True if `player` occupies all three anti-diagonal cells of the 3x3 board.
-        return board[0][2] == player and board[1][1] == player and board[2][0] == player
+    if all([board[d][2-d]==player for d in range(3)]):
+        return True
+
+    return False
 
 # Step 11 - is_winner
 import numpy as np
@@ -127,9 +130,17 @@ import numpy as np
 def is_winner(board, player):
     """Return True if `player` has three-in-a-row on `board`."""
     # TODO: combine row, column, and diagonal win checks into a single boolean
-    if check_row_win(board,player) or check_column_win(board,player) or check_anti_diagonal_win(board,player) or check_main_diagonal_win(board,player):
+
+    if check_row_win(board, player):
         return True
-    else: return False
+    if check_column_win(board, player):
+        return True
+    if check_main_diagonal_win(board, player):
+        return True
+    if check_anti_diagonal_win(board, player):
+        return True
+    
+    return False
 
 # Step 12 - is_draw
 import numpy as np
@@ -137,11 +148,13 @@ import numpy as np
 def is_draw(board):
     """Return True iff the board is full and neither player has won."""
     # TODO: combine a full-board check with a no-winner check
-    if len(get_legal_moves(board)) > 0:
-        return False
-    if is_winner(board, 1) or is_winner(board, -1):
-        return False
-    return True
+
+    legal = get_legal_moves(board)
+
+    if len(legal) <= 0 and not is_winner(board, 1) and not is_winner(board, -1):
+        return True
+    
+    return False
 
 # Step 13 - get_game_status
 import numpy as np
@@ -149,11 +162,16 @@ import numpy as np
 def get_game_status(board):
     """Return 'X_win', 'O_win', 'draw', or 'ongoing' for the given 3x3 board."""
     # TODO: classify the board into one of the four status strings
-    if is_winner(board, 1): return 'X_win'
-    elif is_winner(board, -1): return 'O_win'
-    elif len(get_legal_moves(board)) == 0: return 'draw'
+
+    if is_draw(board):
+        return 'draw'
     else:
-        return 'ongoing'
+        if is_winner(board, 1):
+            return 'X_win'
+        elif is_winner(board, -1):
+            return 'O_win'
+        else:
+            return 'ongoing'
 
 # Step 14 - get_current_player
 import numpy as np
@@ -161,23 +179,21 @@ import numpy as np
 def get_current_player(board):
     """Return 1 if X is to move, -1 if O is to move."""
     # TODO: infer whose turn it is from the counts of X and O marks on the board
-    cnt1 = 0
-    cnt2= 0
-    for r in range(len(board)):
-        for c in range(len(board[r])):
-            if board[r][c] == 1:
-                cnt1+=1
-            elif board[r][c] == -1:
-                cnt2+=1
-    sum =  cnt1+cnt2
-    if sum % 2 == 0:
-        return 1
-    else: return -1
+    
+    X_count = 0
+    O_count = 0
+    for r in range(3):
+        for c in range(3):
+            X_count += board[r][c] == 1
+            O_count += board[r][c] == -1
+    
+    return 1 if X_count == O_count else -1
 
 # Step 15 - switch_player
 def switch_player(player):
     """Return the opponent of `player` (1 <-> -1)."""
     # TODO: return the opposite player given 1 for X and -1 for O.
+
     return -player
 
 # Step 16 - play_hardcoded_game
@@ -186,185 +202,197 @@ import numpy as np
 def play_hardcoded_game(moves):
     """Replay a fixed sequence of (row, col) moves and return (final_board, status)."""
     # TODO: start from an empty board with X to move, apply moves until terminal
-    board = np.zeros((3,3), dtype=int)
+    board = create_empty_board()
+
     player = 1
-    for row, col in moves:
-        if get_game_status(board) != 'ongoing':
+    status = 'ongoing'
+    for r, c in moves:
+        board = place_move(board, r, c, player)
+        status = get_game_status(board)
+        if status != 'ongoing':
             break
-        if not is_cell_empty(board, row, col ): continue
-        board = place_move(board, row, col, player)
-        player = -player
-    return (board,get_game_status(board))
+        else:
+            player = switch_player(player)
+    
+    return board, status
 
 # Step 17 - play_interactive_game
 def play_interactive_game():
     """Play a full game with two humans entering moves via stdin and return the final status."""
+    # TODO: loop printing the board, reading 'row col' from stdin, applying moves until terminal
+    
+    board = create_empty_board()
     player = 1
-    board = np.zeros((3, 3), dtype=int)
 
     while True:
         print_board(board)
-        if get_game_status(board) != 'ongoing':
-            break
 
-        try:
-            line = input().strip()
-            if not line:
-                continue
-            row, col = map(int, line.split())
-        except (EOFError, ValueError):
-            break
+        row, col = map(int, input().split())
 
         try:
             board = place_move(board, row, col, player)
-            player = -player
         except ValueError:
-            print("illegal move, try again", file=sys.stderr)
             continue
 
-    return get_game_status(board)
+        status = get_game_status(board)
+
+        if status in ("X_win", "O_win", "draw"):
+            print_board(board)
+            return status
+
+        player = -player
 
 # Step 18 - TicTacToeGame
-# ── Step 018  TicTacToeGame ──
 class TicTacToeGame:
     """Stateful Tic-Tac-Toe environment wrapping the Part 1 engine."""
 
     def __init__(self):
-        # initialize board, current_player, and status fields.
+        # TODO: initialize board, current_player, and status fields.
         self.board = create_empty_board()
         self.current_player = 1
         self.status = 'ongoing'
 
     def reset(self):
-        # return board to empty starting state.
+        # TODO: return board to empty starting state.
         self.board = create_empty_board()
         self.current_player = 1
         self.status = 'ongoing'
-        return self.board
 
     def legal_moves(self):
-        # list of (row, col) tuples still playable.
+        # TODO: list of (row, col) tuples still playable.
         return get_legal_moves(self.board)
 
     def is_terminal(self):
-        # True once status is no longer 'ongoing'.
+        # TODO: True once status is no longer 'ongoing'.
         return self.status != 'ongoing'
 
     def step(self, row, col):
-        # play current player's move, refresh status, switch player if still ongoing.
+        # TODO: play current player's move, refresh status, switch player if still ongoing.
         if self.is_terminal():
             raise ValueError("Game is already over")
 
         self.board = place_move(self.board, row, col, self.current_player)
         self.status = get_game_status(self.board)
-
-        if self.status == 'ongoing':
+        if not self.is_terminal():
             self.current_player = switch_player(self.current_player)
 
-        return self.board, self.status
-
 # Step 19 - random_move_agent
-def random_move_agent(board, player, rng):
-    legal_moves = get_legal_moves(board)
-    idx = rng.integers(len(legal_moves))
-    return tuple(int(x) for x in legal_moves[idx])
-
-# Step 20 - play_random_vs_random_game
 import numpy as np
 
+def random_move_agent(board, player, rng):
+    """Return a uniformly random legal (row, col) move for `player`."""
+    # TODO: sample a uniformly random legal move using rng and return it as (row, col)
+
+    legal_moves = get_legal_moves(board)
+    index = rng.integers(len(legal_moves))
+    return legal_moves[index]
+
+# Step 20 - play_random_vs_random_game
 def play_random_vs_random_game(rng):
     """Simulate one full random-vs-random game and return the final status."""
-    board = np.zeros((3,3), dtype=int)
-    player = 1
-    status = 'ongoing'
-    
-    while status == 'ongoing':
-        legal_moves = get_legal_moves(board)
-        if legal_moves:
-            move_idx = rng.integers(len(legal_moves)) 
-            row, col = legal_moves[move_idx]
-            board = place_move(board, row, col, player)
-            player = -player
-            status = get_game_status(board)
-        
-    
-    return status
+    # TODO: loop until terminal, alternating random moves between X and O
+
+    game = TicTacToeGame()
+
+    while not game.is_terminal():
+        row, col = random_move_agent(game.board, game.current_player, rng)
+        game.step(row, col)
+
+    return game.status
 
 # Step 21 - play_random_vs_random_matches
 def play_random_vs_random_matches(n_games, rng):
     """Run n_games random-vs-random games and return the list of outcome strings."""
     # TODO: run n_games independent random-vs-random games and collect outcomes.
-    arr = []
-    for _ in range(n_games):
 
-        arr.append(play_random_vs_random_game(rng))
-    return arr
+    return [play_random_vs_random_game(rng) for i in range(n_games)]
 
 # Step 22 - compute_outcome_rates
+from collections import Counter
 def compute_outcome_rates(outcomes):
     """Return {'x_win_rate','o_win_rate','draw_rate'} from a list of outcome labels."""
     # TODO: count occurrences of each outcome and divide by total games
-    
-    n = len(outcomes)
-    if( n == 0):
-        return {
-        'x_win_rate':0.0,
-        'o_win_rate':0.0,
-        'draw_rate':0.0
-    }
-    cntX, cntO, cntD = 0,0,0
-    for o in outcomes :
-        if(o == 'X_win'):
-            cntX+=1
-        elif ( o== 'O_win') :
-            cntO+=1
-        else:
-            cntD+=1
-    prob = {
-        'x_win_rate':cntX/n,
-        'o_win_rate':cntO/n,
-        'draw_rate':cntD/n
-    }
-    return prob
+    n_games = len(outcomes)
+
+    res_count = Counter(outcomes)
+
+    results = {}
+    results['x_win_rate'] = res_count['X_win']/n_games if n_games > 0 else 0.0
+    results['o_win_rate'] = res_count['O_win']/n_games if n_games > 0 else 0.0
+    results['draw_rate'] = res_count['draw']/n_games if n_games > 0 else 0.0
+
+    return results
 
 # Step 23 - minimax_terminal_score
 def minimax_terminal_score(status):
     """Return +1 for 'X_win', -1 for 'O_win', 0 for 'draw'."""
     # TODO: map a terminal status string to its minimax leaf value.
-    if status == 'X_win':
-        return 1
-    elif status == 'O_win':
-        return -1
-    else:
-        return 0
+    stutus_to_value = {'X_win': 1, 'O_win': -1, 'draw': 0}
+
+    return stutus_to_value[status]
 
 # Step 24 - minimax_value
-_minimax_value_cache = {}
-
 def minimax_value(board, player):
-    #board = np.asarray(board)
-    key = (board.tobytes(), player)
-    if key in _minimax_value_cache:
-        return _minimax_value_cache[key]
+    """Return the minimax value of `board` with `player` to move."""
+    # TODO: terminal -> minimax_terminal_score; else max (X) / min (O) over recursive child values
 
     status = get_game_status(board)
+
+    if status != "ongoing":
+        return minimax_terminal_score(status)
+
+    child_values = []
+
+    for row, col in get_legal_moves(board):
+        child_board = place_move(board, row, col, player)
+        child_value = minimax_value(
+            child_board,
+            switch_player(player),
+        )
+        child_values.append(child_value)
+
+    if player == 1:
+        return max(child_values)
+
+    if player == -1:
+        return min(child_values)
+
+# Step 25 - minimax_recursive
+_minimax_cache = {}
+
+def minimax_recursive(board, player):
+    """Return the minimax value of `board` with `player` to move."""
+    # TODO: recurse over legal moves, max for X (+1), min for O (-1), terminal via minimax_terminal_score
+    key = (board.tobytes(), player)
+
+    if key in _minimax_cache:
+        return _minimax_cache[key]
+
+    status = get_game_status(board)
+
     if status != "ongoing":
         value = minimax_terminal_score(status)
-        _minimax_value_cache[key] = value
+        _minimax_cache[key] = value
         return value
 
     child_values = []
+
     for row, col in get_legal_moves(board):
         child_board = place_move(board, row, col, player)
-        child_value = minimax_value(child_board, switch_player(player))
+
+        child_value = minimax_recursive(
+            child_board,
+            switch_player(player),
+        )
         child_values.append(child_value)
 
-    value = max(child_values) if player == 1 else min(child_values)
-    _minimax_value_cache[key] = value
-    return value
+    if player == 1:
+        value = max(child_values)
+    elif player == -1:
+        value = min(child_values)
 
-# Step 25 - minimax_recursive (not yet solved)
-# TODO: implement
+    _minimax_cache[key] = value
+    return value
 
 # Step 26 - minimax_max_min_step (not yet solved)
 # TODO: implement
